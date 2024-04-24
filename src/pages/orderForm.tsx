@@ -1,7 +1,7 @@
-import { useState, FormEvent, } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
 
-interface validationErrors {
+interface ValidationErrors {
   customerName?: string;
   productName?: string;
   productCategory?: string;
@@ -15,14 +15,28 @@ function OrderForm() {
   const [productCategory, setProductCategory] = useState("");
   const [price, setPrice] = useState<number | "">(0);
   const [orderDate, setOrderDate] = useState("");
-
   const [genericError, setGenericError] = useState("");
-  const [validationErrors, setValidationErrors] = useState<validationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    let successTimeout: NodeJS.Timeout;
+
+    if (isSuccess) {
+      successTimeout = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000); // Change 3000 to the desired timeout in milliseconds
+    }
+
+    return () => clearTimeout(successTimeout);
+  }, [isSuccess]);
 
   const handleOrderForm = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const validationErrors: validationErrors = {};
+    const validationErrors: ValidationErrors = {};
 
     if (!customerName.trim()) {
       validationErrors["customerName"] = "Customer Name is required";
@@ -46,31 +60,38 @@ function OrderForm() {
 
     if (Object.keys(validationErrors).length > 0) {
       setValidationErrors(validationErrors);
+      setIsLoading(false);
       return;
     }
 
-    try {
-      const res = await axiosInstance.post("/users/order", {
-        customerName,
-        productName,
-        productCategory,
-        price,
-        orderDate,
-      });
-
-      console.log("response", res);
-
-      if (res.data.successfulSignup) {
-        // Handle success
-      } else if (res.data.existingUserError) {
-        setGenericError(res.data.existingUserError);
-      }
-    } catch (error) {
-      setGenericError(`${error}`);
-    } finally {
-      setValidationErrors({});
+  try {
+    const res = await axiosInstance.post("/users/order", {
+      customerName,
+      productName,
+      productCategory,
+      price,
+      orderDate,
+    });
+  
+    if (res.data.success) {
+      setIsSuccess(true); 
+      setGenericError(""); 
+      setCustomerName("");
+      setProductName("");
+      setProductCategory("");
+      setPrice(0);
+      setOrderDate("");
+    } else {
+      setGenericError("Submission failed");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting order:", error);
+    setGenericError("Submission failed");
+  } finally {
+    setIsLoading(false);
+    setValidationErrors({});
+  }
+};
 
   return (
     <div className="mx-auto w-3/4 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -83,6 +104,12 @@ function OrderForm() {
           {genericError && (
             <div className="bg-red-100 border border-red-400 text-red-700 py-1 rounded my-2 relative text-center">
               <span className="text-xs">{genericError}</span>
+            </div>
+          )}
+
+          {isSuccess && (
+            <div className="bg-green-100 border border-green-400 text-green-700 py-1 rounded my-2 relative text-center">
+              <span className="text-xs">Successfully submitted</span>
             </div>
           )}
 
@@ -158,7 +185,9 @@ function OrderForm() {
             </div>
           </div>
 
-          <button type="submit" className="bg-blue-500 text-white w-full px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300">Submit</button>
+          <button type="submit" className="bg-blue-500 text-white w-full px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300" disabled={isLoading}>
+            {isLoading ? "Submitting..." : "Submit"}
+          </button>
         </form>
       </div>
     </div>
