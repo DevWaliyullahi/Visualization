@@ -21,14 +21,14 @@ function OrderForm() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    let successTimeout: NodeJS.Timeout;
-
+    let successTimeout: ReturnType<typeof setTimeout>;
+  
     if (isSuccess) {
       successTimeout = setTimeout(() => {
         setIsSuccess(false);
-      }, 3000); // Change 3000 to the desired timeout in milliseconds
+      }, 3000); 
     }
-
+  
     return () => clearTimeout(successTimeout);
   }, [isSuccess]);
 
