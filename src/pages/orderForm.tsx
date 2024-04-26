@@ -1,6 +1,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// import  useHistory  from "react-router-dom";
 
 interface ValidationErrors {
   customerName?: string;
@@ -11,15 +12,17 @@ interface ValidationErrors {
 }
 
 function OrderForm() {
+  const [price, setPrice] = useState<number | "">("");
   const [customerName, setCustomerName] = useState("");
   const [productName, setProductName] = useState("");
   const [productCategory, setProductCategory] = useState("");
-  const [price, setPrice] = useState<number | "">(0);
+  // const [price, setPrice] = useState<number | "">(0);
   const [orderDate, setOrderDate] = useState("");
   const [genericError, setGenericError] = useState("");
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let successTimeout: ReturnType<typeof setTimeout>;
@@ -80,9 +83,11 @@ function OrderForm() {
       setCustomerName("");
       setProductName("");
       setProductCategory("");
-      setPrice(0);
+      setPrice("");
       setOrderDate("");
-    } else {
+      
+    navigate("/dashboard", { state: { customerName } });
+  } else {
       setGenericError("Submission failed");
     }
   } catch (error) {
