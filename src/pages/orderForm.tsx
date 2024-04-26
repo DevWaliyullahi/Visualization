@@ -1,5 +1,6 @@
 import { useState, FormEvent, useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
+import { Link } from "react-router-dom";
 
 interface ValidationErrors {
   customerName?: string;
@@ -188,6 +189,12 @@ function OrderForm() {
           <button type="submit" className="bg-blue-500 text-white w-full px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300" disabled={isLoading}>
             {isLoading ? "Submitting..." : "Submit"}
           </button>
+          <p className="text-center text-sm text-gray-500">
+                  My Dashboard{" "}
+                  <Link className="text-blue-900 hover:underline" to="/dashboard">
+                    Dashboard
+                  </Link>
+                </p>
         </form>
       </div>
     </div>
