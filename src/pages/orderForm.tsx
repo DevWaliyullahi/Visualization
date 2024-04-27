@@ -99,8 +99,8 @@ function OrderForm() {
 };
 
   return (
-    <div className="mx-auto w-3/4 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-center text-2xl font-bold mx-auto md:w-10/12 xl:w-6/12 text-white sm:text-4xl lg:text-5xl lg:w-8/12 leading-tight tracking-wider">
+    <div className="mx-auto w-4/4 max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 bg-gray-200">
+      <h1 className="text-center text-2xl font-bold mx-auto md:w-10/12 xl:w-6/12 text-black sm:text-4xl lg:text-5xl lg:w-8/12 leading-tight tracking-wider">
         Order Form
       </h1>
 
