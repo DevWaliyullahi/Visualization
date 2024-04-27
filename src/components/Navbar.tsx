@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 
 const TopBar: React.FC = () => {
   return (
-    <div className={`bg-gray-100`}>
+    <div className={`bg-white-100`} >
       <Box
         display="flex"
         justifyContent="flex-end"

@@ -1,7 +1,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { Link, useNavigate } from "react-router-dom";
-// import  useHistory  from "react-router-dom";
+
 
 interface ValidationErrors {
   customerName?: string;
@@ -16,7 +16,6 @@ function OrderForm() {
   const [customerName, setCustomerName] = useState("");
   const [productName, setProductName] = useState("");
   const [productCategory, setProductCategory] = useState("");
-  // const [price, setPrice] = useState<number | "">(0);
   const [orderDate, setOrderDate] = useState("");
   const [genericError, setGenericError] = useState("");
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});

@@ -9,7 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar, collapsed }) => {
     return (
-        <div className={`bg-gray-100 text-black flex flex-col h-screen ${collapsed ? 'w-13' : 'w-30'}`} style={{ overflowY: 'hidden', position: 'fixed', top: 0, left: 0 }}>
+        <div className={`bg-white-100 text-black flex flex-col h-screen ${collapsed ? 'w-13' : 'w-30'}`} style={{ overflowY: 'hidden', position: 'fixed', top: 0, left: 0 }}>
             <div className="sidebar-header flex items-center justify-between py-2 px-4">
                 <div className="sidebar-toggle cursor-pointer" onClick={toggleSidebar}>
                     <FaBars />
