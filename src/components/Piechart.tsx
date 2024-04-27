@@ -45,7 +45,12 @@ const PieChart: React.FC<{ data: number[] }> = ({ data }) => {
     };
   }, [data]);
 
-  return <canvas ref={chartRef}></canvas>;
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold text-gray-800 mt-5 mb-4">Orders by categories</h1>
+      <canvas ref={chartRef}></canvas>
+    </div>
+  );
 };
 
 export default PieChart;
