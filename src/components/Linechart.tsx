@@ -11,16 +11,24 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const margin = { top: 20, right: 30, bottom: 30, left: 50 };
-    const width = 600 - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
+    const svg = d3.select(svgRef.current);
 
-    const svg = d3
-      .select(svgRef.current)
+    svg.selectAll("*").remove();
+
+    const margin = { top: 30, right: 20, bottom: 30, left: 50 };
+    const width = 600 - margin.left - margin.right;
+    const height = 350 - margin.top - margin.bottom;
+
+    svg
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    svg.append("foreignObject")
+      .attr("width", width)
+      .attr("height", 50)
+      .html('<div style="text-align: left;"><h1 style="font-size: 1.5rem; font-weight: 600; color: #333; margin-bottom: 1rem;">Revenue Overtime</h1></div>');
 
     const x = d3
       .scaleBand()
@@ -51,6 +59,10 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
       .call(d3.axisBottom(x));
 
     svg.append("g").call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(".0s")));
+
+    return () => {
+      svg.selectAll("*").remove();
+    };
 
   }, [data]);
 
