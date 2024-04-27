@@ -14,23 +14,29 @@ const PieChart: React.FC<{ data: number[] }> = ({ data }) => {
       chartInstance.current = new Chart(chartRef.current, {
         type: "pie",
         data: {
-          labels: ["Drama", "Comedy", "Documentary", "Sci-Fi", "Horror"],
+          labels: ["SCi-fi", "Drama", "Comedy", "Horror", "Documentary"],
           datasets: [
             {
               data: data,
-              backgroundColor: ["red", "blue", "yellow", "green", "purple"],
+              backgroundColor: ["blue","purple", "green","yellow", "red"],
             },
           ],
         },
         options: {
             plugins: {
               legend: {
+                display: true,
                 position: "right",
                 align: "end",
                 labels: {
-                  boxWidth: 10,
-                  padding: 10,
+                  boxWidth: 8,
+                  padding: 5,
                   usePointStyle: true,
+                  font: {
+                    size: 12,
+                    weight: "bold",
+                  },
+
                 },
               },
             },
@@ -47,7 +53,7 @@ const PieChart: React.FC<{ data: number[] }> = ({ data }) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-gray-800 mt-5 mb-4">Orders by categories</h1>
+      <h1 className="text-2xl font-semibold text-gray-800 mt-2 mb-15">Orders by categories</h1>
       <canvas ref={chartRef}></canvas>
     </div>
   );
