@@ -194,11 +194,15 @@ function OrderForm() {
             {isLoading ? "Submitting..." : "Submit"}
           </button>
           <p className="text-center text-sm text-gray-500">
-                  My Dashboard{" "}
-                  <Link className="text-blue-900 hover:underline" to="/dashboard">
-                    Dashboard
-                  </Link>
-                </p>
+            My Dashboard{" "}
+            <Link
+              className="text-blue-900 hover:underline"
+              to="/dashboard"
+              state={{ customerName }}
+            >
+              Dashboard
+            </Link>
+          </p>
         </form>
       </div>
     </div>
