@@ -14,15 +14,17 @@ const OrderTable: React.FC<{ orders: Order[] }> = ({ orders }) => {
   const rowsPerPage = 4; 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Calculating the index of the first and last order to display on the current page
   const indexOfLastOrder = currentPage * rowsPerPage;
   const indexOfFirstOrder = indexOfLastOrder - rowsPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
-  // Function to handle page change
   const onPageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  const isPreviousDisabled = currentPage === 1;
+
+  const isNextDisabled = indexOfLastOrder >= orders.length;
 
   return (
     <div className="w-full overflow-auto">
@@ -51,18 +53,18 @@ const OrderTable: React.FC<{ orders: Order[] }> = ({ orders }) => {
           ))}
         </tbody>
       </table>
-      <div className="mt-4">
+       <div className="mt-4">
         <button
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-200 text-gray-600 rounded mr-2"
+          disabled={isPreviousDisabled}
+          className={`px-4 py-2 bg-gray-200 text-gray-600 rounded mr-2 ${isPreviousDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Previous
         </button>
         <button
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={indexOfLastOrder >= orders.length}
-          className="px-4 py-2 bg-gray-200 text-gray-600 rounded ml-10"
+          disabled={isNextDisabled}
+          className={`px-4 py-2 bg-gray-200 text-gray-600 rounded ml-10 ${isNextDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Next
         </button>
